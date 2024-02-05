@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
+import { Link } from "react-router-dom";
 
 const CardCharacter = () => {
   const { store, actions } = useContext(Context);
@@ -44,10 +45,20 @@ const CardCharacter = () => {
                         </p>
 
                         <div className="card-text d-flex justify-content-between">
-                          <button className="btn btn-success">
+                          <Link
+                            to={`/characters/${character.uid}`}
+                            className="btn btn-success"
+                          >
                             See details
+                          </Link>
+                          <button
+                            onClick={() => {
+                              actions.handleFavorite({name:character.properties.name, _id: character._id});
+                            }}
+                            className="btn btn-warning"
+                          >
+                            favorites
                           </button>
-                          <button className="btn btn-warning">favorites</button>
                         </div>
                       </div>
                     </div>

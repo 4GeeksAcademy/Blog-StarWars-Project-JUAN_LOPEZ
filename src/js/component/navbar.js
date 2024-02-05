@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import { Context } from "../store/appContext";
 
 export const Navbar = () => {
+  const { store, actions } = useContext(Context);
+
   return (
     <nav className="navbar bg-body-tertiary">
       <div className="container">
@@ -22,13 +25,13 @@ export const Navbar = () => {
             data-bs-toggle="modal"
             data-bs-target="#exampleModal"
           >
-            Launch demo modal
+            Favorites {store.favorites.length}
           </button>
 
           <div
             className="modal fade"
             id="exampleModal"
-            tabindex="-1"
+            tabIndex="-1"
             aria-labelledby="exampleModalLabel"
             aria-hidden="true"
           >
@@ -36,7 +39,7 @@ export const Navbar = () => {
               <div className="modal-content">
                 <div className="modal-header">
                   <h1 className="modal-title fs-5" id="exampleModalLabel">
-                    Modal title
+                    Favorites 
                   </h1>
                   <button
                     type="button"
@@ -45,7 +48,19 @@ export const Navbar = () => {
                     aria-label="Close"
                   ></button>
                 </div>
-                <div className="modal-body">...</div>
+                <div className="modal-body">
+                  <ul>
+                    {store.favorites.map((fav, index) => (
+                      <div key={index} className="d-flex justify-content-between my-2">
+                        <li>{fav.name}</li>
+                        {/* {console.log(fav.uid)} */}
+                        <button onClick={()=>actions.handleDelete({ _id: fav._id})} className="btn btn-danger rounded">
+                          delete
+                        </button>
+                      </div>
+                    ))}
+                  </ul>
+                </div>
                 <div className="modal-footer">
                   <button
                     type="button"
@@ -54,9 +69,7 @@ export const Navbar = () => {
                   >
                     Close
                   </button>
-                  <button type="button" className="btn btn-primary">
-                    Save changes
-                  </button>
+                 
                 </div>
               </div>
             </div>

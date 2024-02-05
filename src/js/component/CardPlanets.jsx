@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
+import { Link } from "react-router-dom";
 
 const CardPlanets = () => {
   const { store, actions } = useContext(Context);
@@ -11,7 +12,6 @@ const CardPlanets = () => {
         {/* aqui empieza card para los planetas */}
         <div className="container row row-cols-5">
           {store.planets.map((planet) => {
-            console.log(planet);
             return (
               <div key={planet.uid} id="planets" className="container col">
                 <div className="mb-3">
@@ -39,10 +39,20 @@ const CardPlanets = () => {
                           climate: {planet.properties.climate}
                         </p>
                         <div className="card-text d-flex justify-content-between">
-                          <button className="btn btn-success">
+                          <Link
+                            to={`/planets/${planet.uid}`}
+                            className="btn btn-success"
+                          >
                             See details
+                          </Link>
+                          <button
+                            onClick={() => {
+                              actions.handleFavorite({name:planet.properties.name, _id: planet._id});
+                            }}
+                            className="btn btn-warning"
+                          >
+                            favorites
                           </button>
-                          <button className="btn btn-warning">favorites</button>
                         </div>
                       </div>
                     </div>
